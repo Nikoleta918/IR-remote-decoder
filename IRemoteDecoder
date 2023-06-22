@@ -1,0 +1,42 @@
+//include library
+#include <IRremote.h>
+
+//pin definitions
+IRrecv IR(3);
+int ledPin=8;
+int ledPin2=9;
+
+void setup() {
+  //setup pin modes,enable IR input to be detected and set data rate in bits/second
+  IR.enableIRIn();
+  pinMode(ledPin,OUTPUT);
+  pinMode(ledPin2,OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  //this returns true if we have an infrared light that is received by the IReceiver
+  if (IR.decode()) {
+
+    //uncomment the line under,when you want to check the input of each button on the remote
+    //Serial.println(IR.decodedIRData.decodedRawData,HEX);
+
+    //if the decodedIRData that the infrared receiver receives is equal to the following hexadecimal number,then turn on or turn off the led
+    if(IR.decodedIRData.decodedRawData==0xE718FF00){
+      digitalWrite(ledPin,HIGH);
+    }
+    if(IR.decodedIRData.decodedRawData==0xAD52FF00){
+      digitalWrite(ledPin,LOW);
+    }
+    if(IR.decodedIRData.decodedRawData==0xA55AFF00){
+      digitalWrite(ledPin2,HIGH);
+    }
+    if(IR.decodedIRData.decodedRawData==0xF708FF00){
+      digitalWrite(ledPin2,LOW);
+    }
+    //delay to not overflow the IR with input(stops the loop function from being called for 1500 secs)
+    delay(1500);
+    //signals the IReceiver to read the next input data
+    IR.resume();
+  }
+}
