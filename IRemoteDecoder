@@ -3,8 +3,8 @@
 
 //pin definitions
 IRrecv IR(3);
-int ledPin=8;
-int ledPin2=9;
+int ledPin=6;
+int ledPin2=5;
 
 void setup() {
   //setup pin modes,enable IR input to be detected and set data rate in bits/second
